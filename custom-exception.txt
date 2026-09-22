@@ -1,0 +1,23 @@
+A custom exception is an exception that you create yourself for a specific business error in your Salesforce application.
+Instead of using a generic Exception, you can create an exception with a meaningful name.
+
+public class InsufficientBalanceException extends Exception {
+}
+
+use:
+public static void withdraw(Decimal amount, Decimal balance) {
+
+    if (amount > balance) {
+        throw new InsufficientBalanceException(
+            'Insufficient balance'
+        );
+    }
+}
+
+Hanlde it:
+try {
+    withdraw(1000, 500);
+}
+catch (InsufficientBalanceException e) {
+    System.debug(e.getMessage());
+}
