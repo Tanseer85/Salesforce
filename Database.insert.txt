@@ -1,0 +1,26 @@
+The main difference is how errors are handled.
+| `insert`                                           | `Database.insert()`                      |
+| -------------------------------------------------- | ---------------------------------------- |
+| Standard DML statement                             | Database method                          |
+| If one record fails, the **whole operation fails** | Can allow successful records to be saved |
+| Throws an exception on failure                     | Returns `Database.SaveResult[]`          |
+| Simpler                                            | Gives more control                       |
+
+
+If one record causes an error, the DML operation throws an exception.
+
+try {
+    insert accounts;
+} catch (DmlException e) {
+    System.debug(e.getMessage());
+}
+
+
+2. Database.insert()
+You can use the allOrNone parameter:
+
+Database.SaveResult[] results =
+    Database.insert(accounts, false);
+
+false means: Save the records that are valid, even if some records fail.
+true means: all or none.
