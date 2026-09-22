@@ -75,3 +75,18 @@ It's especially important when testing Queueable, Batch, Scheduled, or Future Ap
 Used to verify that the result is what you expected.
 
 System.assertEquals('Test Account', acc.Name);
+========================================================================
+@TestSetup is used in an Apex test class to create common test data once, which can then be used by all test methods in that class.
+
+@IsTest
+private class AccountTest {
+
+    @TestSetup
+    static void setupData() {
+        Account acc = new Account(
+            Name = 'Test Account'
+        );
+
+        insert acc;
+    }
+}
