@@ -1,0 +1,17 @@
+Apex classes are generally categorized based on their responsibility. Common examples are Controller, Service, Selector, Utility, Batch, Queueable, Schedulable, Test, Wrapper, Invocable, and Web Service classes. Batch, Queueable, Schedulable and Future are primarily used for asynchronous processing, while Controller, Service and Selector classes are commonly used to separate application and business logic.
+
+| Type                            | Purpose                                        | Example                 |
+| ------------------------------- | ---------------------------------------------- | ----------------------- |
+| **Controller Class**            | Handles UI/LWC requests                        | `AccountController`     |
+| **Service Class**               | Contains business logic                        | `AccountService`        |
+| **Selector Class**              | Handles SOQL/query logic                       | `AccountSelector`       |
+| **Utility/Helper Class**        | Reusable common functions                      | `StringUtil`            |
+| **Batch Apex Class**            | Processes large amounts of data asynchronously | `AccountBatch`          |
+| **Queueable Apex Class**        | Performs asynchronous processing               | `OrderQueueable`        |
+| **Schedulable Class**           | Runs Apex at a scheduled time                  | `DailyOrderScheduler`   |
+| **Future Class/Method**         | Runs logic asynchronously                      | `@future` method        |
+| **Test Class**                  | Tests Apex code                                | `AccountControllerTest` |
+| **Exception Class**             | Custom application exceptions                  | `OrderException`        |
+| **Wrapper Class**               | Combines/structures multiple pieces of data    | `AccountWrapper`        |
+| **Invocable Class/Method**      | Allows Flow to invoke Apex                     | `OrderFlowAction`       |
+| **REST/SOAP Web Service Class** | Exposes Apex as an API                         | `OrderRestService`      |
