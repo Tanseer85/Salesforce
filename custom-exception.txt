@@ -1,4 +1,6 @@
-A custom exception is an exception that you create yourself for a specific business error in your Salesforce application.
+A custom exception is a user-defined Apex exception created by extending the Exception class. We use it to represent and handle specific business or application errors.
+
+
 Instead of using a generic Exception, you can create an exception with a meaningful name.
 
 public class InsufficientBalanceException extends Exception {
