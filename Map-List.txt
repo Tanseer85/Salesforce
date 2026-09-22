@@ -1,0 +1,8 @@
+Imagine you have 1,000 Accounts and you need Account with a particular Id.
+
+With a List, you may need to search through the records.
+
+With a Map:
+accountMap.get(accountId);
+
+I use Map<Id, Account> when I need to retrieve Account records quickly using their Salesforce Id, especially when processing related records like Contacts, Opportunities, or Orders.
