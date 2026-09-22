@@ -1,0 +1,77 @@
+Apex test classes are used to test Apex code and verify that it behaves as expected. They use @IsTest, create test data, execute the code, and use assertions to validate the results. Salesforce requires sufficient test coverage for deploying Apex to production.
+
+@IsTest
+   ↓
+Create test data
+   ↓
+Run Apex
+   ↓
+Assert expected result
+
+
+Apex Test Classes are classes used to test your Apex code automatically and make sure it works correctly.
+
+Simple example
+
+Suppose you have this Apex class:
+
+public class AccountService {
+    public static Account createAccount(String name) {
+        Account acc = new Account(Name = name);
+        insert acc;
+        return acc;
+    }
+}
+
+You can create a test class:
+
+@IsTest
+private class AccountServiceTest {
+
+    @IsTest
+    static void testCreateAccount() {
+
+        Test.startTest();
+
+        Account acc = AccountService.createAccount('Test Account');
+
+        Test.stopTest();
+
+        System.assertNotEquals(null, acc.Id);
+        System.assertEquals('Test Account', acc.Name);
+    }
+}
+Important points
+
+1. @IsTest
+
+Marks a class or method as a test.
+
+@IsTest
+private class AccountServiceTest {
+}
+
+2. Test data
+
+Test classes normally create their own test data:
+
+Account acc = new Account(Name = 'Test Account');
+insert acc;
+
+3. Test.startTest() / Test.stopTest()
+
+Used to create a fresh governor-limit context around the code you're testing.
+
+Test.startTest();
+
+AccountService.createAccount('Test');
+
+Test.stopTest();
+
+It's especially important when testing Queueable, Batch, Scheduled, or Future Apex.
+
+4. System.assert
+
+Used to verify that the result is what you expected.
+
+System.assertEquals('Test Account', acc.Name);
