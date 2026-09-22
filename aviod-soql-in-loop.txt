@@ -1,0 +1,45 @@
+How do you avoid SOQL inside a loop?
+
+You avoid SOQL inside a loop by using a Set to collect IDs, then querying all records once using IN.
+I avoid SOQL inside a loop by collecting IDs into a Set, querying all required records in one SOQL using the IN operator, and then using a Map to relate the queried records back to the original records.
+✅ Loop → Set<Id> → ONE SOQL → Map → Loop
+
+Bad Approch: 
+for (Account acc : accounts) {
+    List<Contact> contacts = [
+        SELECT Id, Name
+        FROM Contact
+        WHERE AccountId = :acc.Id
+    ];
+}
+If there are 200 Accounts → potentially 200 SOQL queries.
+
+
+Correct way: 
+Good approach
+
+Step 1: Collect Account IDs
+
+Set<Id> accountIds = new Set<Id>();
+
+for (Account acc : accounts) {
+    accountIds.add(acc.Id);
+}
+
+Step 2: Query Contacts once
+
+List<Contact> contacts = [
+    SELECT Id, Name, AccountId
+    FROM Contact
+    WHERE AccountId IN :accountIds
+];
+
+Now you have:
+
+200 Accounts
+     ↓
+Collect IDs in Set
+     ↓
+1 SOQL query
+     ↓
+All Contacts
