@@ -1,0 +1,28 @@
+avoid DML inside a loop by collecting all records that need to be inserted/updated/deleted into a List, and then performing one DML operation after the loop.
+
+Bad Approch:
+
+for (Account acc : accounts) {
+    acc.Description = 'Updated';
+    update acc;  // ❌ DML inside loop
+}
+f you have 200 Accounts, this can result in 200 DML statements and hit Salesforce governor limits.
+
+
+Correct Way: 
+List<Account> accountsToUpdate = new List<Account>();
+
+for (Account acc : accounts) {
+    acc.Description = 'Updated';
+    accountsToUpdate.add(acc);
+}
+update accountsToUpdate;  // ✅ One DML
+
+Easy Pattern:
+Loop
+  ↓
+Collect records in List
+  ↓
+Loop ends
+  ↓
+ONE DML operation
