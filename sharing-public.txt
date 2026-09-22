@@ -1,0 +1,11 @@
+With sharing = follow user access.
+Without sharing = don't follow user sharing rules.
+Inherited sharing = follow the sharing mode of the caller.
+
+
+| Keyword     | Simple meaning                                   | Access          |
+| ----------- | ------------------------------------------------ | --------------- |
+| `private`   | **Only inside this class**                       | Most restricted |
+| `protected` | **Inside this class + child classes**            | Limited         |
+| `public`    | **Available within the application/org**         | Wider           |
+| `global`    | **Available outside the Salesforce org/package** | Widest          |
