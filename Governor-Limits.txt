@@ -1,0 +1,2 @@
+Programmatic Limit Monitoring
+Apex provides the Limits system class to inspect current usage and remaining headroom within a transaction:
