@@ -1,0 +1,284 @@
+2. Triggers
+What is a Salesforce trigger?
+Difference between before and after trigger.
+What are trigger context variables?
+
+Important ones:
+
+Trigger.isInsert
+Trigger.isUpdate
+Trigger.isDelete
+Trigger.isBefore
+Trigger.isAfter
+Trigger.new
+Trigger.old
+Trigger.newMap
+Trigger.oldMap
+Can we perform DML on Trigger.new in a before trigger?
+What is a trigger framework?
+Why should we avoid multiple triggers on the same object?
+How do you prevent trigger recursion?
+How would you update Account when a Contact is created?
+How would you handle 200 records coming from Data Loader?
+What happens if a trigger performs a SOQL query inside a loop?
+
+Common scenario:
+
+Whenever an Opportunity is Closed Won, update a field on the related Account. How would you implement it?
+
+3. SOQL / SOSL
+What is SOQL?
+What is SOSL?
+Difference between SOQL and SOSL.
+Difference between child-to-parent and parent-to-child queries.
+
+Example:
+
+SELECT Id, Name, Account.Name
+FROM Contact
+
+Parent → child:
+
+SELECT Id, Name,
+       (SELECT Id, FirstName, LastName FROM Contacts)
+FROM Account
+How do you query Accounts that have Contacts?
+How do you query Accounts that don't have Contacts?
+What is a relationship query?
+What is a semi-join query?
+What is a selective query?
+How can you optimize a slow SOQL query?
+4. Salesforce Security
+
+This is very important for a 4-year developer.
+
+Explain Salesforce security architecture.
+
+You should know:
+
+Object Level Security
+       ↓
+Field Level Security
+       ↓
+Record Level Security
+What is OWD?
+What is a Role Hierarchy?
+What are Sharing Rules?
+Difference between Profile and Permission Set.
+What is Permission Set Group?
+What is Field-Level Security?
+Difference between Role and Profile.
+What is Manual Sharing?
+What is Apex Managed Sharing?
+How does with sharing affect Apex?
+Does with sharing enforce FLS and CRUD?
+5. LWC — Very Important
+
+For current Salesforce developer interviews, LWC is one of the most important areas.
+
+What is LWC?
+What are the three main files in an LWC?
+component.html
+component.js
+component.js-meta.xml
+What is the lifecycle of an LWC?
+Explain:
+constructor()
+connectedCallback()
+renderedCallback()
+disconnectedCallback()
+errorCallback()
+What is @api?
+What is @wire?
+What is the difference between wired Apex and imperative Apex?
+When would you use imperative Apex?
+How do you pass parameters to Apex from LWC?
+
+Example:
+
+@wire(getContacts, {
+    numberOfRecords: '$numberOfRecords'
+})
+contacts;
+How do you call Apex imperatively?
+const result = await getContacts({
+    numberOfRecords: this.numberOfRecords
+});
+How do you handle errors from Apex?
+How do you refresh wired data?
+What is refreshApex()?
+What is Lightning Data Service?
+Difference between LDS and Apex.
+What is lightning-record-form?
+What is lightning-record-edit-form?
+How do parent and child LWCs communicate?
+6. LWC Communication
+Parent → Child communication?
+@api
+Child → Parent communication?
+CustomEvent
+
+Example:
+
+this.dispatchEvent(
+    new CustomEvent('selected', {
+        detail: this.recordId
+    })
+);
+How do unrelated LWCs communicate?
+What is Lightning Message Service?
+Difference between Custom Event and LMS.
+7. LWC Scenario Questions
+
+These are particularly useful for 4-year interviews.
+
+76. You have 10 cards on a dashboard and each card makes a separate Apex call. How would you optimize it?
+
+Expected discussion:
+
+LWC
+  ↓
+One Apex call
+  ↓
+DTO / Wrapper
+  ↓
+All dashboard data
+
+Instead of:
+
+LWC
+ ↓
+Apex 1
+Apex 2
+Apex 3
+Apex 4
+...
+
+77. How would you create a reusable LWC?
+
+Discuss:
+
+@api properties
+configurable metadata
+reusable child components
+events
+generic data structures
+
+78. An LWC is continuously calling Apex after rendering. What could be wrong?
+
+Potential issue:
+
+renderedCallback()
+
+causing repeated state updates.
+
+You should know how to use a guard:
+
+hasRendered = false;
+
+renderedCallback() {
+    if (this.hasRendered) {
+        return;
+    }
+
+    this.hasRendered = true;
+
+    // initialization
+}
+8. Async Apex
+What is asynchronous Apex?
+Types of asynchronous Apex?
+Future
+Queueable
+Batch
+Scheduled
+Future vs Queueable.
+Queueable vs Batch.
+When would you use Batch Apex?
+What is Database.Batchable?
+What is the purpose of Database.Stateful?
+Can Queueable call another Queueable?
+How do you schedule Apex?
+What happens when a Batch Apex processes 1 million records?
+9. Integration
+
+For 4 years' experience, expect practical integration questions.
+
+How do you integrate Salesforce with a third-party API?
+What is REST API?
+REST vs SOAP.
+How do you make an HTTP callout from Apex?
+What is HttpRequest?
+What is HttpResponse?
+What is a Named Credential?
+Why should you use Named Credentials?
+What is External Credential?
+How do you authenticate an external API?
+How do you handle API timeout/failure?
+Can you make a callout from a trigger?
+
+If not directly, explain approaches such as:
+
+Trigger
+   ↓
+Queueable / Future
+   ↓
+HTTP Callout
+   ↓
+External API
+10. Deployment / DevOps
+What is Salesforce DX?
+What is a scratch org?
+What is a sandbox?
+Difference between Developer Sandbox and Full Sandbox.
+What is a Change Set?
+What is Salesforce CLI?
+What is Git?
+How do you deploy metadata using Salesforce CLI?
+What is CI/CD?
+What happens when deployment fails because of test failures?
+11. Real-world Scenario Questions
+
+These are the ones I would especially prepare for a 4-year interview.
+
+111. A trigger is causing "Too many SOQL queries: 101". How would you fix it?
+
+112. A user can see an Account but cannot edit one of its fields. What would you check?
+
+113. An LWC needs data from Account, Contact and Opportunity. Would you make 3 Apex calls? Why/why not?
+
+114. An API call from Salesforce is taking 20 seconds. How would you design the solution?
+
+115. A batch job needs to process 5 million records. How would you design it?
+
+116. Two users update the same record at the same time. How would you handle data consistency?
+
+117. An LWC shows stale data after an update. How would you refresh it?
+
+118. You have a trigger on Account and another trigger indirectly updates Account again. How do you prevent recursion?
+
+119. How would you design a reusable Salesforce dashboard component?
+
+120. A production deployment fails because test classes fail, but they pass in sandbox. How would you investigate?
+
+⭐ Most important 15 to prepare first
+
+If your interview is soon, I would prioritize these:
+
+Governor Limits
+Trigger + Bulkification
+SOQL optimization
+Apex Collections
+with sharing / security
+OWD, Roles, Sharing Rules
+LWC lifecycle
+@wire vs imperative Apex
+LWC parent-child communication
+Lightning Message Service
+Apex + LWC error handling
+Queueable vs Batch vs Future
+REST API + Named Credentials
+Test classes + Test.startTest/stopTest
+Real-world trigger/LWC performance scenarios
+
+For your React/Node background, I would also spend extra time on LWC architecture, Apex integration, DTO/wrapper patterns, governor-limit optimization, and REST integrations, because those are areas where your existing frontend experience can translate well into Salesforce development.
