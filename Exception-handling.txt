@@ -1,0 +1,22 @@
+Exception handling in Apex is the process of catching and handling runtime errors using try-catch blocks. We can use specific exceptions like DmlException or QueryException to handle particular types of errors and prevent the application from failing unexpectedly.
+
+try {
+    // Code that might fail
+}
+catch (Exception e) {
+    // Handle the error
+    System.debug('Error: ' + e.getMessage());
+}
+finally {
+    // Code that should always execute
+}
+
+
+| Exception              | Used for                      |
+| ---------------------- | ----------------------------- |
+| `DmlException`         | Insert, update, delete errors |
+| `QueryException`       | SOQL query errors             |
+| `NullPointerException` | Using a null value            |
+| `ListException`        | Invalid List operation/index  |
+| `TypeException`        | Invalid type conversion       |
+| `Exception`            | General/parent exception      |
