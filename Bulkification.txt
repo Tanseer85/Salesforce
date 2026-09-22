@@ -1,0 +1,60 @@
+Bulkification means designing Apex code to process multiple records in a single execution while staying within Salesforce governor limits. We avoid SOQL and DML inside loops and instead use collections such as List, Set, and Map to process records in bulk.
+
+Key rule: Never put SOQL or DML inside a loop.
+
+❌ Non-bulkified code
+
+Don't put SOQL inside a loop:
+
+for (Account acc : accounts) {
+    List<Contact> contacts = [
+        SELECT Id, Name
+        FROM Contact
+        WHERE AccountId = :acc.Id
+    ];
+}
+
+If you have 200 Accounts, you could make 200 SOQL queries and hit the governor limit.
+
+✅ Bulkified code
+
+Get all the Account IDs first:
+
+Set<Id> accountIds = new Set<Id>();
+
+for (Account acc : accounts) {
+    accountIds.add(acc.Id);
+}
+
+Then query all Contacts once:
+
+List<Contact> contacts = [
+    SELECT Id, Name, AccountId
+    FROM Contact
+    WHERE AccountId IN :accountIds
+];
+
+Then process them:
+
+for (Contact con : contacts) {
+    // process contact
+}
+Easy way to remember
+❌ One record → one SOQL → one DML
+✅ Many records → one SOQL → one DML
+Another important example
+
+❌ Don't do DML inside a loop:
+
+for (Account acc : accounts) {
+    acc.Description = 'Updated';
+    update acc;
+}
+
+✅ Collect records and update once:
+
+for (Account acc : accounts) {
+    acc.Description = 'Updated';
+}
+
+update accounts;
