@@ -1,0 +1,9 @@
+Collections are used to store multiple values in a single variable.
+
+List stores ordered values and allows duplicates.
+Set stores unique values and doesn't use an index.
+Map stores data as key-value pairs and lets us quickly retrieve a value using its key.
+
+List → Order + Duplicates
+Set  → Unique
+Map  → Key → Value
