@@ -1,0 +1,15 @@
+For production, generally no.
+
+Salesforce requires:
+
+At least 75% overall Apex code coverage for deployment to production.
+All Apex tests must pass.
+The 75% is overall org coverage, not necessarily 75% for every individual class.
+Example
+Class A → 90% coverage
+Class B → 80%
+Class C → 60%
+----------------
+Overall → 78% ✅
+
+This can meet the overall 75% requirement.
